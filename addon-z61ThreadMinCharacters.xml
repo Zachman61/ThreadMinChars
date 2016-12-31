@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addon addon_id="z61ThreadMinCharacters" title="Z61: Thread Minimum Characters" version_string="1.0.0.0" version_id="1" url="" install_callback_class="Z61_ThreadMinChars_Install" install_callback_method="install" uninstall_callback_class="Z61_ThreadMinChars_Install" uninstall_callback_method="uninstall">
+  <admin_navigation/>
+  <admin_permissions/>
+  <admin_style_properties/>
+  <admin_templates>
+    <template title="z61_threadminchars_forum_edit"><![CDATA[<dl class="ctrlUnit">
+	<xen:checkboxunit label="">
+		<xen:option name="z61_character_min_enable" label="{xen:phrase z61_threadminchars_enable_minimum}" selected="{$forum.z61_character_min_enable}">
+			<xen:hint>{xen:phrase z61_threadminchars_enable_minimum_explain}</xen:hint>
+		</xen:option>
+	</xen:checkboxunit>
+</dl>
+<dl class="ctrlUnit">
+	<xen:spinboxunit label="{xen:phrase z61_threadminchars_minimum_characters}:" name="z61_character_min" value="{$forum.z61_character_min}" max="150">
+			<xen:explain>{xen:phrase z61_threadminchars_minimum_explain}</xen:explain>
+	</xen:spinboxunit>
+</dl>]]></template>
+  </admin_templates>
+  <admin_template_modifications>
+    <modification template="forum_edit" modification_key="z61_threadminchars_forum_edit" description="Adds Minimum Thread title to forum_edit" execution_order="10" enabled="1" action="str_replace">
+      <find><![CDATA[<xen:selectunit label="{xen:phrase thread_list_date_limit}:" name="list_date_limit_days" value="{$forum.list_date_limit_days}">
+				<xen:option value="0">{xen:phrase none}</xen:option>
+				<xen:option value="7">{xen:phrase x_days, 'days=7'}</xen:option>
+				<xen:option value="14">{xen:phrase x_days, 'days=14'}</xen:option>
+				<xen:option value="30">{xen:phrase x_days, 'days=30'}</xen:option>
+				<xen:option value="60">{xen:phrase x_months, 'months=2'}</xen:option>
+				<xen:option value="90">{xen:phrase x_months, 'months=3'}</xen:option>
+				<xen:option value="182">{xen:phrase x_months, 'months=6'}</xen:option>
+				<xen:option value="365">{xen:phrase 1_year}</xen:option>
+				<xen:explain>{xen:phrase thead_list_date_limit_used_on_busy_forums_to_improve_performance}</xen:explain>
+			</xen:selectunit>]]></find>
+      <replace><![CDATA[$0
+<xen:include template="z61_threadminchars_forum_edit" />]]></replace>
+    </modification>
+  </admin_template_modifications>
+  <code_events/>
+  <code_event_listeners>
+    <listener event_id="load_class_controller" execute_order="10" callback_class="Z61_ThreadMinChars_Listener" callback_method="loadAdminForumController" active="1" hint="XenForo_ControllerAdmin_Forum" description="Listens for `XenForo_ControllerAdmin_Forum`"/>
+    <listener event_id="load_class_controller" execute_order="10" callback_class="Z61_ThreadMinChars_Listener" callback_method="loadPublicThreadController" active="1" hint="XenForo_ControllerPublic_Thread" description="Listens for `XenForo_ControllerPublic_Thread`"/>
+    <listener event_id="load_class_controller" execute_order="10" callback_class="Z61_ThreadMinChars_Listener" callback_method="loadPublicForumController" active="1" hint="XenForo_ControllerPublic_Forum" description="Listens for `XenForo_ControllerPublic_Forum`"/>
+    <listener event_id="load_class_datawriter" execute_order="10" callback_class="Z61_ThreadMinChars_Listener" callback_method="loadForumDataWriter" active="1" hint="XenForo_DataWriter_Forum" description="Listens for `XenForo_DataWriter_Forum`"/>
+  </code_event_listeners>
+  <cron/>
+  <email_templates/>
+  <email_template_modifications/>
+  <optiongroups/>
+  <permissions>
+    <permission_groups/>
+    <permissions/>
+    <interface_groups/>
+  </permissions>
+  <phrases>
+    <phrase title="z61_threadminchars_enable_minimum" version_id="1" version_string="1.0.0.0"><![CDATA[Enable Thread Character Minimum]]></phrase>
+    <phrase title="z61_threadminchars_enable_minimum_explain" version_id="1" version_string="1.0.0.0"><![CDATA[Enabling will enforce a thread minimum character limit preventing short thread titles.]]></phrase>
+    <phrase title="z61_threadminchars_minimum_characters" version_id="1" version_string="1.0.0.0"><![CDATA[Minimum Characters]]></phrase>
+    <phrase title="z61_threadminchars_minimum_explain" version_id="1" version_string="1.0.0.0"><![CDATA[The minimum length for thread titles. Must be <b>greater</b> than zero. Recommended is at least <b>5</b>.]]></phrase>
+    <phrase title="z61_threadminchars_thread_title_must_contain_at_least_x_characters" version_id="1" version_string="1.0.0.0"><![CDATA[The thread title must contain at least {x} characters.]]></phrase>
+  </phrases>
+  <route_prefixes/>
+  <style_properties/>
+  <templates/>
+  <public_template_modifications/>
+  <bb_code_media_sites/>
+  <bb_codes/>
+</addon>
